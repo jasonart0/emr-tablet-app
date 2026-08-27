@@ -29,9 +29,9 @@ export default function SchedulerScreen() {
   useEffect(() => { if (params.date) setDate(params.date); }, [params.date]);
   useEffect(() => { if (params.appointmentId) { const found = appointments.find((item) => item.id === params.appointmentId); if (found) setSelected(found); } }, [appointments, params.appointmentId]);
   return (
-    <AppShell title="Scheduler" subtitle="Clinical appointments">
+    <AppShell title="Scheduler" subtitle={formatDate(date, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}>
       <View style={styles.page}>
-        <SchedulerToolbar date={date} view={view} onDateDelta={(delta) => setDate(addDays(date, delta))} onToday={() => setDate(toDateKey(new Date()))} onCalendar={() => { setDateDraft(date); setDateModal(true); }} onView={setView} onCreate={() => setCreating(true)} onPatients={() => router.push('/patients')} />
+        <SchedulerToolbar view={view} onDateDelta={(delta) => setDate(addDays(date, delta))} onToday={() => setDate(toDateKey(new Date()))} onCalendar={() => { setDateDraft(date); setDateModal(true); }} onView={setView} onCreate={() => setCreating(true)} onPatients={() => router.push('/patients')} />
         <View style={styles.schedule}>{view === 'Day' ? <DaySchedule date={date} onAppointment={setSelected} /> : <WeekSchedule date={date} onAppointment={setSelected} />}</View>
       </View>
       <AppointmentDetailModal appointment={selected} visible={!!selected} onClose={() => setSelected(undefined)} />
